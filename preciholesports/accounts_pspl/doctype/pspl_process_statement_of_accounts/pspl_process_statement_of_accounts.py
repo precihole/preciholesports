@@ -141,9 +141,12 @@ def send_emails(document_name, from_scheduler=False):
 			attachments = [{"fname": supplier + ".pdf", "fcontent": report_pdf}]
 			sender = frappe.get_value('Email Account', doc.sender, 'email_id')
 			recipients, cc = get_recipients_and_cc(supplier, doc)
-			reply_to_emails = [x.user for x in doc.cc_to]
-			reply_to = ", ".join(reply_to_emails)
-			reply_to = reply_to + ', accounts@preciholesports.com'
+			if doc.cc_to:
+				reply_to_emails = [x.user for x in doc.cc_to]
+				reply_to = ", ".join(reply_to_emails)
+				reply_to = reply_to + ', accounts@preciholesports.com'
+			else:
+				reply_to = 'accounts@preciholesports.com'
 			context = get_context(supplier, doc)
 			subject = frappe.render_template(doc.subject, context)
 			message = frappe.render_template(doc.body, context) + frappe.render_template(signature_template, context)
@@ -154,7 +157,7 @@ def send_emails(document_name, from_scheduler=False):
 				recipients=recipients,
 				sender=sender,
 				cc=cc,
-				reply_to='accounts@preciholesports.com',
+				reply_to=reply_to,
 				subject=subject,
 				message=message,
 				now=True,

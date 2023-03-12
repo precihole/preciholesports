@@ -61,20 +61,26 @@ frappe.ui.form.on('PSPL Process Statement Of Accounts', {
 	refresh: function(frm){
 		if(!frm.doc.__islocal) {
 			frm.add_custom_button(__('Send Emails'), function(){
-				frappe.call({
-					method: "preciholesports.accounts_pspl.doctype.pspl_process_statement_of_accounts.pspl_process_statement_of_accounts.send_emails",
-					args: {
-						"document_name": frm.doc.name,
-					},
-					callback: function(r) {
-						if(r && r.message) {
-							frappe.show_alert({message: __('Emails Queued'), indicator: 'blue'});
+				frappe.confirm('Are you sure to send this mail?',
+                () => {
+                    // action to perform if Yes is selected
+					frappe.call({
+						method: "preciholesports.accounts_pspl.doctype.pspl_process_statement_of_accounts.pspl_process_statement_of_accounts.send_emails",
+						args: {
+							"document_name": frm.doc.name,
+						},
+						callback: function(r) {
+							if(r && r.message) {
+								frappe.show_alert({message: __('Emails Queued'), indicator: 'blue'});
+							}
+							else{
+								frappe.msgprint(__('No Records for these settings.'))
+							}
 						}
-						else{
-							frappe.msgprint(__('No Records for these settings.'))
-						}
-					}
-				});
+					});
+                }, () => {
+                    // action to perform if No is selected
+                })
 			});
 			frm.add_custom_button(__('Download'), function(){
 				var url = frappe.urllib.get_full_url(
