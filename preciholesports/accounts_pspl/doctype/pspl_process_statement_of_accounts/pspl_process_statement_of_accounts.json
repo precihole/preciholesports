@@ -32,7 +32,6 @@
   "subject",
   "column_break_zrjc4",
   "cc_to",
-  "reply_to",
   "section_break_y60bx",
   "body"
  ],
@@ -180,12 +179,6 @@
    "options": "Assignment Rule User"
   },
   {
-   "fieldname": "reply_to",
-   "fieldtype": "Table MultiSelect",
-   "label": "Reply-To",
-   "options": "Assignment Rule User"
-  },
-  {
    "fieldname": "section_break_y60bx",
    "fieldtype": "Section Break"
   },
@@ -196,7 +189,7 @@
   }
  ],
  "links": [],
- "modified": "2023-03-12 12:07:34.171374",
+ "modified": "2023-03-12 14:00:22.377108",
  "modified_by": "Administrator",
  "module": "Accounts PSPL",
  "name": "PSPL Process Statement Of Accounts",
